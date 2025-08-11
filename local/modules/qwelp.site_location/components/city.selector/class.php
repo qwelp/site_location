@@ -18,7 +18,9 @@ class QwelpSiteLocationCitySelectorComponent extends CBitrixComponent implements
 
     public function executeComponent()
     {
-        if (!Loader::includeModule('iblock')) return;
+        if (!Loader::includeModule('qwelp.site_location') || !Loader::includeModule('iblock')) {
+            return;
+        }
         $this->arResult['IBLOCK_ID'] = (int)Option::get('qwelp.site_location', 'IBLOCK_ID', '0');
         if ($this->arResult['IBLOCK_ID'] <= 0) { $this->includeComponentTemplate(); return; }
 
@@ -43,6 +45,9 @@ class QwelpSiteLocationCitySelectorComponent extends CBitrixComponent implements
 
     public function selectAction(int $cityId)
     {
+        if (!Loader::includeModule('qwelp.site_location')) {
+            return ['status' => 'error'];
+        }
         Context::setCurrent($cityId);
         return ['status' => 'ok'];
     }
